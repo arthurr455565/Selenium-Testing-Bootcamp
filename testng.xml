@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Selenium Learning Suite" parallel="false">
+    <test name="Smoke">
+        <classes>
+            <class name="tests.OpenGoogleTest"/>
+        </classes>
+    </test>
+    <!-- Add more classes later as you progress -->
+</suite>
+
