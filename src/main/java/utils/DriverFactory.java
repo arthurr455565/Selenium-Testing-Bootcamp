@@ -1,11 +1,5 @@
 package utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Comparator;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -47,25 +41,6 @@ public final class DriverFactory {
                     ch.addArguments("--no-sandbox");
                     ch.addArguments("--disable-dev-shm-usage");
                 }
-
-                // Create a unique user-data-dir to avoid profile-in-use conflicts on the runner
-                try {
-                    Path tmpProfile = Files.createTempDirectory("chrome-profile-");
-                    ch.addArguments("--user-data-dir=" + tmpProfile.toAbsolutePath().toString());
-                    // Best-effort cleanup on JVM exit
-                    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                        try {
-                            Files.walk(tmpProfile)
-                                 .sorted(Comparator.reverseOrder())
-                                 .map(Path::toFile)
-                                 .forEach(File::delete);
-                        } catch (Exception ignored) {
-                        }
-                    }));
-                } catch (IOException ignored) {
-                    // If tmp dir creation fails, continue without setting user-data-dir
-                }
-
                 return new ChromeDriver(ch);
         }
     }
